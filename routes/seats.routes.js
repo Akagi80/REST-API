@@ -23,7 +23,7 @@ router.route('/seats').post((req, res) => {
     email: req.body.email,
   }
   if (db.seats.some(pickedSeat => (pickedSeat.day == req.body.day && pickedSeat.seat == req.body.seat))) {
-    res.json({ message: 'The slot is already taken...' });
+    res.status(404).json({ message: 'The slot is already taken...' });
   } else {
     db.seats.push(data);
     res.json(db.seats);
@@ -36,11 +36,14 @@ router.route('/seats/:id').delete((req, res) => {
 });
 
 router.route('/seats/:id').put((req, res) => {
-  db.seats[req.params.id].day = req.body.day;
-  db.seats[req.params.id].seat = req.body.seat;
-  db.seats[req.params.id].client = req.body.client;
-  db.seats[req.params.id].email = req.body.email;
-
+  db.seats.forEach(element => {
+    if (element.id == req.params.id) {
+      element.day = req.body.day,
+      element.seats = req.body.seats,
+      element.client = req.body.client,
+      element.email = req.body.email
+    }
+  });
   res.json({message: 'OK'});
 });
 
