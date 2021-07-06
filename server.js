@@ -15,6 +15,12 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cors())
 
+// kod umozliwiający dostęp do serwera WebSocket poprzez komendę: req.io
+app.use((req, res, next) => {
+  req.io = io;
+  next();
+});
+
 app.use('/api', testimonialsRoutes);
 app.use('/api', concertsRoutes);
 app.use('/api', seatsRoutes);

@@ -26,6 +26,8 @@ router.route('/seats').post((req, res) => {
     res.status(404).json({ message: 'The slot is already taken...' });
   } else {
     db.seats.push(data);
+    // dzięki req.io (stworzony w server.js) mamy dostęp do serwera WebSocket
+    req.io.emit('seatsUpdated', db.seats)
     res.json(db.seats);
   }
 });
