@@ -12,7 +12,7 @@ exports.getAll = async (req, res) => {
 exports.getById = async (req, res) => {
   try {
     const conc = await Concert.findById(req.params.id);
-    if(!conc) res.status(404).json({ message: 'Not found' });
+    if (!conc) res.status(404).json({ message: 'Not found' });
     else res.json(conc);
   }
   catch(err) {
@@ -23,13 +23,7 @@ exports.getById = async (req, res) => {
 exports.addNew = async (req, res) => {
   try {
     const { performer, genre, price, day, image } = req.body;
-    const newConcert = new Concert({ 
-      performer: performer, 
-      genre: genre, 
-      price: price, 
-      day: day, 
-      image: image 
-    });
+    const newConcert = new Concert({ performer, genre, price, day, image });
     await newConcert.save();
     res.json({ message: 'OK' });
   } catch(err) {
@@ -40,7 +34,7 @@ exports.addNew = async (req, res) => {
 exports.deleteById = async (req, res) => {
   try {
     const conc = await Concert.findById(req.params.id);
-    if(conc) {
+    if (conc) {
       await Concert.deleteOne({ _id: req.params.id });
       res.json({ message: 'OK', deleted: conc });
     }
@@ -55,14 +49,8 @@ exports.putById = async (req, res) => {
   const { performer, genre, price, day, image } = req.body;
   try {
     const conc = await Concert.findById(req.params.id);
-    if(conc) {
-      await Concert.updateOne({ _id: req.params.id }, { $set: { 
-        performer: performer, 
-        genre: genre, 
-        price: price, 
-        day: day, 
-        image: image 
-      }});
+    if (conc) {
+      await Concert.updateOne({ _id: req.params.id }, { $set: { performer, genre, price, day, image }});
       res.json({ message: 'OK', modified: conc });
     }
     else res.status(404).json({ message: 'Not found...' });
