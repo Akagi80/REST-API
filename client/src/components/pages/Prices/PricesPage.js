@@ -30,9 +30,7 @@ const Prices = () => {
         <div key={concert.concertId}>
           <h2>Day {concert.day}</h2>
           <p>Price: {concert.price}$</p>
-          <p>Workshops: 
-            
-          </p>
+          <p>Workshops: {concert.workshops.map(workshop => workshop.name ).join(', ')}</p>
         </div>
       ))}
 
